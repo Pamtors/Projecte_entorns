@@ -67,6 +67,8 @@ def dibujar_menu():
         texto("2 - BLOQUEADO (Nivel 3)", 250, 400, (255, 0, 0))
 
     texto("3 - LOGOUT", 250, 450, (255, 255, 0))
+    if usuario_logeado[5] == "admin":
+        texto("9 - PANEL ADMIN", 250, 500, (255,0,0))
     texto(mensaje, 200, 540, (255, 255, 255))
 
 
