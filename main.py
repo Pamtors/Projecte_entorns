@@ -126,7 +126,7 @@ while True:
 
                 if evento.key == pygame.K_1:
 
-                    ganado = jugar(pantalla)
+                    ganado = jugar(pantalla, usuario_logeado[6])
 
                     if ganado:
 
