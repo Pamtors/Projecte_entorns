@@ -14,7 +14,8 @@ def crear_tabla():
         password TEXT,
         coins INTEGER DEFAULT 0,
         nivel INTEGER DEFAULT 1,
-        rol TEXT DEFAULT 'user'
+        rol TEXT DEFAULT 'user',
+        clase TEXT DEFAULT 'Normal'
     )
     """)
 
