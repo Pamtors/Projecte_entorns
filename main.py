@@ -127,7 +127,13 @@ while True:
                     ganado = jugar(pantalla)
 
                     if ganado:
-                        mensaje = "Nivel completado +10 coins"
+
+                        subir_nivel_y_coins(usuario_logeado[1])
+
+                        usuario_logeado = obtener_usuario(usuario_logeado[1])
+
+                        mensaje = "Nivel completado! +10 coins +1 nivel"
+
                     else:
                         mensaje = "Has perdido"
 
