@@ -69,6 +69,7 @@ def dibujar_menu():
     texto("3 - LOGOUT", 250, 450, (255, 255, 0))
     if usuario_logeado[5] == "admin":
         texto("9 - PANEL ADMIN", 250, 500, (255,0,0))
+        texto("8 - BORRAR USUARIO", 250, 530, (255,0,0))
     texto(mensaje, 200, 540, (255, 255, 255))
 
 
@@ -167,6 +168,20 @@ while True:
                         mensaje = "USUARIOS: admin y registrados"
                     else:
                         mensaje = "No eres admin"
+                
+                elif evento.key == pygame.K_8:
+
+                    if usuario_logeado[5] == "admin":
+
+                        borrado = eliminar_ultimo_usuario()
+
+                    if borrado:
+                            mensaje = "Usuario eliminado: " + borrado
+                    else:
+                            mensaje = "No hay usuarios para borrar"
+
+                else:
+                    mensaje = "No eres admin"
 
     # ---------------- DIBUJAR ----------------
     if pantalla_actual == "login":
