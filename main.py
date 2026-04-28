@@ -70,7 +70,7 @@ def dibujar_menu():
     if usuario_logeado[5] == "admin":
         texto("9 - PANEL ADMIN", 250, 470, (255,0,0))
         texto("8 - BORRAR USUARIO", 250, 510, (255,0,0))
-    texto(mensaje, 200, 540, (255, 255, 255))
+    texto(mensaje, 180, 560, (255,255,255))
 
 
 while True:
