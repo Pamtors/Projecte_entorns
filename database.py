@@ -109,3 +109,31 @@ def cambiar_clase(nombre, clase):
 
     conn.commit()
     conn.close()
+
+
+def eliminar_ultimo_usuario():
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT nombre FROM usuarios
+    WHERE nombre != 'admin'
+    ORDER BY id DESC
+    LIMIT 1
+    """)
+
+    user = cursor.fetchone()
+
+    if user:
+        cursor.execute("""
+        DELETE FROM usuarios
+        WHERE nombre = ?
+        """, (user[0],))
+
+        conn.commit()
+        conn.close()
+        return user[0]
+
+    conn.close()
+    return None
