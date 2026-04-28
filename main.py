@@ -161,6 +161,13 @@ while True:
                     usuario_logeado = None
                     mensaje = "Sesion cerrada"
 
+                elif evento.key == pygame.K_9:
+
+                    if usuario_logeado[5] == "admin":
+                        mensaje = "USUARIOS: admin y registrados"
+                    else:
+                        mensaje = "No eres admin"
+
     # ---------------- DIBUJAR ----------------
     if pantalla_actual == "login":
         dibujar_login()
