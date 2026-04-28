@@ -96,3 +96,16 @@ def obtener_usuario(nombre):
 
     conn.close()
     return usuario
+
+def cambiar_clase(nombre, clase):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE usuarios
+    SET clase = ?
+    WHERE nombre = ?
+    """, (clase, nombre))
+
+    conn.commit()
+    conn.close()
