@@ -67,3 +67,31 @@ def login(nombre,password):
 
     conn.close()
     return usuario
+
+def subir_nivel_y_coins(nombre):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE usuarios
+    SET coins = coins + 10,
+        nivel = nivel + 1
+    WHERE nombre = ?
+    """, (nombre,))
+
+    conn.commit()
+    conn.close()
+
+
+def obtener_usuario(nombre):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM usuarios WHERE nombre = ?
+    """, (nombre,))
+
+    usuario = cursor.fetchone()
+
+    conn.close()
+    return usuario
