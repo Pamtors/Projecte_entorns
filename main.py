@@ -50,17 +50,19 @@ def dibujar_menu():
     nombre = usuario_logeado[1]
     coins = str(usuario_logeado[3])
     nivel = str(usuario_logeado[4])
+    clase = str(usuario_logeado[6])
 
     texto("MENU PRINCIPAL", 250, 50)
 
     texto("Usuario: " + nombre, 50, 150)
     texto("Coins: " + coins, 50, 200)
     texto("Nivel: " + nivel, 50, 250)
+    texto("Clase: " + clase, 50, 300)
 
     texto("1 - JUGAR", 250, 350, (0, 255, 0))
 
     if usuario_logeado[4] >= 3:
-        texto("2 - MODIFICAR NAVE", 250, 400, (0, 255, 0))
+        texto("2 - ELEGIR CLASE", 250, 400, (0,255,0))
     else:
         texto("2 - BLOQUEADO (Nivel 3)", 250, 400, (255, 0, 0))
 
@@ -140,9 +142,14 @@ while True:
                 elif evento.key == pygame.K_2:
 
                     if usuario_logeado[4] >= 3:
-                        mensaje = "Zona modificar nave"
+
+                        cambiar_clase(usuario_logeado[1], "Fuerte")
+                        usuario_logeado = obtener_usuario(usuario_logeado[1])
+
+                        mensaje = "Clase cambiada a Fuerte"
+
                     else:
-                        mensaje = "Bloqueado"
+                        mensaje = "Bloqueado hasta nivel 3"
 
                 elif evento.key == pygame.K_3:
 
