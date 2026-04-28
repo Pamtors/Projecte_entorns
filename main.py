@@ -7,10 +7,10 @@ pygame.init()
 ANCHO = 800
 ALTO = 600
 
-pantalla = pygame.display.set_mode((ANCHO,ALTO))
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Space Upgrade")
 
-fuente = pygame.font.SysFont(None,40)
+fuente = pygame.font.SysFont(None, 40)
 
 crear_tabla()
 crear_admin()
@@ -18,32 +18,61 @@ crear_admin()
 usuario_texto = ""
 pass_texto = ""
 campo = "user"
-
 mensaje = ""
 
-def dibujar():
+pantalla_actual = "login"
+usuario_logeado = None
+
+
+def texto(msg, x, y, color=(255,255,255)):
+    t = fuente.render(msg, True, color)
+    pantalla.blit(t, (x, y))
+
+
+def dibujar_login():
     pantalla.fill((0,0,30))
 
-    titulo = fuente.render("SPACE UPGRADE",True,(255,255,255))
-    pantalla.blit(titulo,(260,50))
+    texto("SPACE UPGRADE", 260, 50)
+    texto("Usuario: " + usuario_texto, 180, 200)
+    texto("Password: " + pass_texto, 180, 260)
+    texto("ENTER=Login", 250, 350, (0,255,0))
+    texto("R=Registro", 280, 400, (0,255,0))
+    texto(mensaje, 250, 500, (255,255,0))
 
-    user = fuente.render("Usuario: " + usuario_texto,True,(255,255,255))
-    pantalla.blit(user,(200,200))
 
-    pwd = fuente.render("Password: " + pass_texto,True,(255,255,255))
-    pantalla.blit(pwd,(200,260))
+def dibujar_menu():
+    pantalla.fill((20,20,20))
 
-    info = fuente.render("ENTER=Login | R=Registro",True,(0,255,0))
-    pantalla.blit(info,(180,350))
+    nombre = usuario_logeado[1]
+    coins = str(usuario_logeado[3])
+    nivel = str(usuario_logeado[4])
 
-    msg = fuente.render(mensaje,True,(255,255,0))
-    pantalla.blit(msg,(250,450))
+    texto("MENU PRINCIPAL", 250, 50)
+    texto("Usuario: " + nombre, 50, 150)
+    texto("Coins: " + coins, 50, 200)
+    texto("Nivel: " + nivel, 50, 250)
 
-    pygame.display.update()
+    texto("1 - JUGAR", 250, 350, (0,255,0))
+
+    if usuario_logeado[4] >= 3:
+        texto("2 - MODIFICAR NAVE", 250, 400, (0,255,0))
+    else:
+        texto("2 - BLOQUEADO (Nivel 3)", 250, 400, (255,0,0))
+
+    texto("3 - LOGOUT", 250, 450, (255,255,0))
+
 
 while True:
 
-    dibujar()
+    pantalla.fill((0,0,0))
+
+    if pantalla_actual == "login":
+        dibujar_login()
+
+    elif pantalla_actual == "menu":
+        dibujar_menu()
+
+    pygame.display.update()
 
     for evento in pygame.event.get():
 
@@ -53,36 +82,56 @@ while True:
 
         if evento.type == pygame.KEYDOWN:
 
-            if evento.key == pygame.K_TAB:
-                if campo == "user":
-                    campo = "pass"
+            if pantalla_actual == "login":
+
+                if evento.key == pygame.K_TAB:
+                    campo = "pass" if campo == "user" else "user"
+
+                elif evento.key == pygame.K_BACKSPACE:
+                    if campo == "user":
+                        usuario_texto = usuario_texto[:-1]
+                    else:
+                        pass_texto = pass_texto[:-1]
+
+                elif evento.key == pygame.K_RETURN:
+
+                    user = login(usuario_texto, pass_texto)
+
+                    if user:
+                        usuario_logeado = user
+                        pantalla_actual = "menu"
+                        mensaje = ""
+                    else:
+                        mensaje = "Datos incorrectos"
+
+                elif evento.key == pygame.K_r:
+
+                    ok = registrar(usuario_texto, pass_texto)
+
+                    if ok:
+                        mensaje = "Registrado correctamente"
+                    else:
+                        mensaje = "Usuario ya existe"
+
                 else:
-                    campo = "user"
+                    if campo == "user":
+                        usuario_texto += evento.unicode
+                    else:
+                        pass_texto += evento.unicode
 
-            elif evento.key == pygame.K_BACKSPACE:
-                if campo == "user":
-                    usuario_texto = usuario_texto[:-1]
-                else:
-                    pass_texto = pass_texto[:-1]
+            elif pantalla_actual == "menu":
 
-            elif evento.key == pygame.K_RETURN:
-                user = login(usuario_texto,pass_texto)
+                if evento.key == pygame.K_1:
+                    mensaje = "Pronto iniciaremos juego"
 
-                if user:
-                    mensaje = "Login correcto!"
-                else:
-                    mensaje = "Datos incorrectos"
+                elif evento.key == pygame.K_2:
+                    if usuario_logeado[4] >= 3:
+                        mensaje = "Zona modificar nave"
+                    else:
+                        mensaje = "Bloqueado"
 
-            elif evento.key == pygame.K_r:
-                ok = registrar(usuario_texto,pass_texto)
-
-                if ok:
-                    mensaje = "Usuario registrado"
-                else:
-                    mensaje = "Usuario ya existe"
-
-            else:
-                if campo == "user":
-                    usuario_texto += evento.unicode
-                else:
-                    pass_texto += evento.unicode
+                elif evento.key == pygame.K_3:
+                    pantalla_actual = "login"
+                    usuario_texto = ""
+                    pass_texto = ""
+                    usuario_logeado = None
