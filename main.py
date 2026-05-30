@@ -62,15 +62,29 @@ def dibujar_menu():
     texto("1 - JUGAR", 250, 350, (0, 255, 0))
 
     if usuario_logeado[4] >= 3:
-        texto("2 - ELEGIR CLASE", 250, 400, (0,255,0))
+        texto("2 - ELEGIR CLASE", 250, 400, (0, 255, 0))
     else:
         texto("2 - BLOQUEADO (Nivel 3)", 250, 400, (255, 0, 0))
 
     texto("3 - LOGOUT", 250, 450, (255, 255, 0))
+
     if usuario_logeado[5] == "admin":
-        texto("9 - PANEL ADMIN", 250, 470, (255,0,0))
-        texto("8 - BORRAR USUARIO", 250, 510, (255,0,0))
-    texto(mensaje, 180, 560, (255,255,255))
+        texto("8 - BORRAR USUARIO", 250, 500, (255, 0, 0))
+
+    texto(mensaje, 100, 560, (255, 255, 255))
+
+
+def dibujar_clases():
+
+    pantalla.fill((20, 20, 20))
+
+    texto("SELECCIONAR CLASE", 220, 100)
+
+    texto("1 - Sangrado", 250, 220)
+    texto("2 - Fuerte", 250, 280)
+    texto("3 - Rapido", 250, 340)
+
+    texto("ESC - Volver", 250, 450, (255, 255, 0))
 
 
 while True:
@@ -87,12 +101,14 @@ while True:
             if pantalla_actual == "login":
 
                 if evento.key == pygame.K_TAB:
+
                     if campo == "user":
                         campo = "pass"
                     else:
                         campo = "user"
 
                 elif evento.key == pygame.K_BACKSPACE:
+
                     if campo == "user":
                         usuario_texto = usuario_texto[:-1]
                     else:
@@ -119,6 +135,7 @@ while True:
                         mensaje = "Usuario ya existe"
 
                 else:
+
                     if campo == "user":
                         usuario_texto += evento.unicode
                     else:
@@ -129,13 +146,19 @@ while True:
 
                 if evento.key == pygame.K_1:
 
-                    ganado = jugar(pantalla, usuario_logeado[6], usuario_logeado[4])
+                    ganado = jugar(
+                        pantalla,
+                        usuario_logeado[6],
+                        usuario_logeado[4]
+                    )
 
                     if ganado:
 
                         subir_nivel_y_coins(usuario_logeado[1])
 
-                        usuario_logeado = obtener_usuario(usuario_logeado[1])
+                        usuario_logeado = obtener_usuario(
+                            usuario_logeado[1]
+                        )
 
                         mensaje = "Nivel completado! +10 coins +1 nivel"
 
@@ -145,12 +168,7 @@ while True:
                 elif evento.key == pygame.K_2:
 
                     if usuario_logeado[4] >= 3:
-
-                        cambiar_clase(usuario_logeado[1], "Fuerte")
-                        usuario_logeado = obtener_usuario(usuario_logeado[1])
-
-                        mensaje = "Clase cambiada a Fuerte"
-
+                        pantalla_actual = "clases"
                     else:
                         mensaje = "Bloqueado hasta nivel 3"
 
@@ -162,26 +180,68 @@ while True:
                     usuario_logeado = None
                     mensaje = "Sesion cerrada"
 
-                elif evento.key == pygame.K_9:
-
-                    if usuario_logeado[5] == "admin":
-                        mensaje = "USUARIOS: admin y registrados"
-                    else:
-                        mensaje = "No eres admin"
-                
                 elif evento.key == pygame.K_8:
 
                     if usuario_logeado[5] == "admin":
 
                         borrado = eliminar_ultimo_usuario()
 
-                    if borrado:
+                        if borrado:
                             mensaje = "Usuario eliminado: " + borrado
-                    else:
+                        else:
                             mensaje = "No hay usuarios para borrar"
 
-                else:
-                    mensaje = "No eres admin"
+                    else:
+                        mensaje = "No eres admin"
+
+            # ---------------- CLASES ----------------
+            elif pantalla_actual == "clases":
+
+                if evento.key == pygame.K_1:
+
+                    cambiar_clase(
+                        usuario_logeado[1],
+                        "Sangrado"
+                    )
+
+                    usuario_logeado = obtener_usuario(
+                        usuario_logeado[1]
+                    )
+
+                    mensaje = "Clase Sangrado equipada"
+                    pantalla_actual = "menu"
+
+                elif evento.key == pygame.K_2:
+
+                    cambiar_clase(
+                        usuario_logeado[1],
+                        "Fuerte"
+                    )
+
+                    usuario_logeado = obtener_usuario(
+                        usuario_logeado[1]
+                    )
+
+                    mensaje = "Clase Fuerte equipada"
+                    pantalla_actual = "menu"
+
+                elif evento.key == pygame.K_3:
+
+                    cambiar_clase(
+                        usuario_logeado[1],
+                        "Rapido"
+                    )
+
+                    usuario_logeado = obtener_usuario(
+                        usuario_logeado[1]
+                    )
+
+                    mensaje = "Clase Rapido equipada"
+                    pantalla_actual = "menu"
+
+                elif evento.key == pygame.K_ESCAPE:
+
+                    pantalla_actual = "menu"
 
     # ---------------- DIBUJAR ----------------
     if pantalla_actual == "login":
@@ -189,5 +249,8 @@ while True:
 
     elif pantalla_actual == "menu":
         dibujar_menu()
+
+    elif pantalla_actual == "clases":
+        dibujar_clases()
 
     pygame.display.update()
