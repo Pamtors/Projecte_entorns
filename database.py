@@ -137,3 +137,52 @@ def eliminar_ultimo_usuario():
 
     conn.close()
     return None
+
+def obtener_usuarios():
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT nombre, rol
+    FROM usuarios
+    ORDER BY id
+    """)
+
+    usuarios = cursor.fetchall()
+
+    conn.close()
+
+    return usuarios
+
+
+def hacer_admin(nombre):
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE usuarios
+    SET rol = 'admin'
+    WHERE nombre = ?
+    """, (nombre,))
+
+    conn.commit()
+    conn.close()
+
+
+def eliminar_usuario(nombre):
+
+    if nombre == "admin":
+        return
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM usuarios
+    WHERE nombre = ?
+    """, (nombre,))
+
+    conn.commit()
+    conn.close()
