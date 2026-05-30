@@ -51,6 +51,7 @@ Usuario "1" --> "1" Juego
 ' =======================
 ' NAVE Y COMBATE
 ' =======================
+
 class Nave {
   - posicionX: float
   - vida: int
@@ -83,6 +84,7 @@ Disparo --> Obstaculo
 ' =======================
 ' CLASES (TIPOS DE NAVE)
 ' =======================
+
 abstract class Clase {
   + aplicarEfecto(obstaculo: Obstaculo)
 }
@@ -108,6 +110,7 @@ Nave --> Clase
 ' =======================
 ' TIENDA (EXTRA)
 ' =======================
+
 class Tienda {
   + comprarMejora()
   + desbloquearClase()
