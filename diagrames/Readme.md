@@ -30,6 +30,7 @@ Usuario <|-- Administrador
 ' =======================
 ' JUEGO
 ' =======================
+
 class Juego {
   - usuarioActual: Usuario
   - nivelActual: Nivel
