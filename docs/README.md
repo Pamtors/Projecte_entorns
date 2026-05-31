@@ -1,1 +1,2 @@
-Provisional
+  ENLLAÇ DEL VIDEO A VISUALITZAR DEL PROGRÉS DEL JOC.
+  https://youtu.be/hsmPRbVQs4o
