@@ -57,7 +57,4 @@ La clase Fuerte, dispara más lento de lo normal, pero el disparo hace más dañ
 
 La clase Rápido, dispara más rápido pero hace menos daño por disparo.
 
-Nivel -> Juego : nivelCompletado()
-Juego -> Usuario : mostrarResultado()
-
-@enduml
+TODO ESTA INFORMACIÓN ES LA INFORMACIÓN PLANTEADA AL PRINCIPIO DE PROYECTO, NO SE HA LLEGADO A IMPLEMENTAR TODO, AUN ASI HAY POSIBILIDADES DE SEGUIR HACIENDO CRECER EL JUEGO EN UN FUTURO.
